@@ -1,0 +1,29 @@
+﻿@model IEnumerable<GoodFood.Models.Category>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<p>@Html.ActionLink("Add New ", "AddNew")</p>
+
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Category Name</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.CategoryName
+                </td>
+            </tr>
+        }
+        
+    </tbody>
+</table>
+

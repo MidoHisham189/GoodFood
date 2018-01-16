@@ -1,0 +1,42 @@
+﻿@model GoodFood.ViewModel.RecipeViewModel
+@{
+    ViewBag.Title = "AddNew";
+}
+
+<h2>AddNew</h2>
+
+
+
+
+@using (Html.BeginForm("AddNew", "Recipe", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.recipe.RecipeName)
+        @Html.TextBoxFor(m => m.recipe.RecipeName, new {@class="form-control"})
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.recipe.RecipeName)
+        @Html.TextBoxFor(m => m.recipe.RecipeDiscription, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+       
+        @Html.DropDownListFor(m => m.recipe.CategoryId, new SelectList(Model.Categories, "id", "CategoryName"), "Select Category", new { @class = "form-control" })
+    </div>
+    if (Model.recipe.id != 0)
+    {
+        <div class="form-group">
+
+            <input type="file" name="@Html.NameFor(m=> m.File)" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+            <img src="@Url.Content("~/Iamges/"+Model.recipe.CategoryId+Model.recipe.id+".jpg")" class="img-responsive"  width="20%" height="20%"/>
+        </div>
+        
+    }
+
+    @Html.HiddenFor(m=> m.recipe.id)
+     <button type="submit" class="btn btn-primary">Add</button>
+
+
+}

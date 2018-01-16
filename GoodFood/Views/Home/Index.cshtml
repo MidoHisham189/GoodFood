@@ -1,0 +1,103 @@
+﻿@model IEnumerable<GoodFood.Models.Category>
+
+@{
+    ViewBag.Title = "Home Page";
+    int counter = 0;
+}
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+
+    @foreach (var item in Model)
+    { 
+        <h1>@item.CategoryName</h1>
+
+        <hr />
+        <div class="row">
+            @foreach (var subItem in item.recipes)
+            {
+
+
+
+                <div class="col-md-4">
+                    <h4>@subItem.RecipeName</h4>
+                  <a href="/Home/RecipeDetail?id=@subItem.id">
+
+                      <img src="@Url.Content("~/Iamges/"+@subItem.CategoryId+@subItem.id +".jpg")" class="img-responsive myImg" />
+                  </a>  
+                   
+                    <input style="display:none" name="recepId" value="@subItem.id" />
+                    
+                    
+                    @*<input type="submit" value="Add To Favourite" class="btn btn-primary xyz" />*@
+                    <button id="btnFav"  recipe-id =@subItem.id class="btn btn-primary xyz">Add To Favourite </button>
+
+                </div>
+            }
+
+        </div>
+
+     }
+
+
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+
+
+            
+            //if ($button.attr("recipe-id") == 1) {
+            //    $button = $('.xyz');
+
+            //    $button.addClass("btn btn-danger");
+            //    $button.prop('disabled', true);
+            //}
+            $('.xyz').click(function () {
+
+
+
+                var jsonObject = {
+
+                    recepId: $(this).attr("recipe-id")
+     
+                };
+
+                $.ajax({
+                    url: "@Url.Action("AddToFavourite")",
+                    type: "POST",
+                data: JSON.stringify(jsonObject),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                error: function (response) {
+                    window.location.href ="/Account/Login"
+                    
+                },
+                success: function (data) {
+                    if (data.length == 0) {
+                        confirm("Add Successfully");
+
+                    }
+                    else {
+                        
+                        confirm("AllReady Added");
+
+                    }
+                    
+                }
+            });
+
+                
+              
+
+
+            });
+        });
+       
+    </script>
+  
+}

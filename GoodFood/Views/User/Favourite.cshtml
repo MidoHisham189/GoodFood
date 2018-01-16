@@ -1,0 +1,52 @@
+﻿@model IEnumerable<GoodFood.Models.UserFav>
+@{
+    ViewBag.Title = "Favourite";
+}
+
+<h2>Favourite</h2>
+
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            @item.Recipe.RecipeName
+            <button type="submit" fav-id=@item.id class="btn btn-danger delete">Delete</button>
+        </li>
+
+    }
+</ul>
+
+@section scripts {
+   <script>
+       $(document).ready(function () {
+
+           $('.delete').click(function () {
+
+               $button = $(this);
+               var jsonObject = {
+
+                   favId: $button.attr("fav-id")
+
+               };
+
+               $.ajax({
+                   url: "@Url.Action("DeleteFromFavourite")",
+                   type: "Post",
+               data: JSON.stringify(jsonObject),
+               contentType: "application/json; charset=utf-8",
+               dataType: "json",
+               error: function (response) {
+                   // window.location.href ="/Account/Login"
+                   console.log(response);
+                    
+               },
+               success: function (data) {
+                   alert(data)
+                   $button.parents("li").remove();
+                    
+               }
+           });
+           });
+       });
+    </script>
+}
